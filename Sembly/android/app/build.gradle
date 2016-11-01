@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile project(':react-native-vector-icons')
     compile project(':react-native-maps')
     compile project(':react-native-material-kit')
@@ -140,3 +141,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
   from configurations.compile
   into 'libs'
 }
+

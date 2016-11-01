@@ -8,13 +8,13 @@ import {
   Dimensions
 } from 'react-native';
 
-import Spinner from './Spinner.js'
+import Spinner from './Spinner'
 
 import MapView from 'react-native-maps';
-import NewEventModal from './NewEventModal.js';
-import OurDrawer from './OurDrawer.js';
-import _navigate from './navigateConfig.js';
-import NewEventFab from './NewEventFab.js';
+import NewEventModal from './NewEventModal';
+import OurDrawer from './OurDrawer';
+import _navigate from './navigateConfig';
+import NewEventFab from './NewEventFab';
 
 export default class Map extends Component {
   constructor (props) {

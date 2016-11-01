@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 
-import Spinner from './Spinner.js'
+import Spinner from './Spinner';
 
 
 const styles = StyleSheet.create({
