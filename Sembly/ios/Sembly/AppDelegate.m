@@ -14,7 +14,6 @@
 
 //FacebookSDK import
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 //
 
 @implementation AppDelegate
