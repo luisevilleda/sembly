@@ -29,7 +29,7 @@ export default class App extends Component {
 
   getLocation() {
     const context = this;
-    Navigator.geolocation.getCurrentPosition((data) => {
+    navigator.geolocation.getCurrentPosition((data) => {
       context.setState({
         currentLoc: [data.coords.latitude, data.coords.longitude],
         mongoLocation: [data.coords.longitude, data.coords.latitude],
