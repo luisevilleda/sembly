@@ -76,7 +76,7 @@ export default class LoginPage extends Component {
       return (
         <View>
           <View style={styles.container}>
-            <TouchableOpacity onPress={(e)=>{this.login()}} style={styles.button}>
+            <TouchableOpacity onPress={() => { this.login(); }} style={styles.button}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
             <FacebookLoginButton />
