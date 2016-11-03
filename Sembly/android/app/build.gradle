@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fbsdk')
     compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile project(':react-native-vector-icons')
     compile project(':react-native-maps')
