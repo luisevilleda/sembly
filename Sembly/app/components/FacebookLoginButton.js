@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import ReactNative, { View } from 'react-native';
 
+const { AsyncStorage } = ReactNative;
 const FBSDK = require('react-native-fbsdk');
 
 const {
@@ -11,6 +12,7 @@ const {
 const FacebookLoginButton = () => (
   <View>
     <LoginButton
+      readPermissions={['email', 'public_profile', 'user_friends']}
       publishPermissions={['publish_actions']}
       onLoginFinished={
         (error, result) => {
@@ -19,11 +21,17 @@ const FacebookLoginButton = () => (
           } else if (result.isCancelled) {
             console.log('login is cancelled.');
           } else {
-            AccessToken.getCurrentAccessToken().then(
-              (data) => {
-                console.log(`token: ${data.accessToken.toString()}`);
-              }
-            );
+            AccessToken.getCurrentAccessToken()
+            .then((data) => {
+              AsyncStorage.setItem('FBtoken', data.accessToken, (err) => {
+                if (err) {
+                  console.log('ERROR: ', err);
+                } else {
+                  console.log('Successfully saved FB token: ', data.accessToken);
+                  AsyncStorage.getItem('FBtoken', (e, storageData) => console.log('AsyncStorage getItem: ', storageData));
+                }
+              });
+            });
           }
         }
       }
