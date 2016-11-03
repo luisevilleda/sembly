@@ -1,43 +1,47 @@
-import React from 'react';
-import ReactNative, { View } from 'react-native';
+import React, { PropTypes, Component } from 'react';
+import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
 
-const { AsyncStorage } = ReactNative;
-const FBSDK = require('react-native-fbsdk');
-
-const {
-  LoginButton,
-  AccessToken,
-} = FBSDK;
-
-const FacebookLoginButton = () => (
-  <View>
-    <LoginButton
-      readPermissions={['email', 'public_profile', 'user_friends']}
-      publishPermissions={['publish_actions']}
-      onLoginFinished={
-        (error, result) => {
-          if (error) {
-            console.log(`login has error: ${JSON.stringify(error)}`);
-          } else if (result.isCancelled) {
-            console.log('login is cancelled.');
-          } else {
-            AccessToken.getCurrentAccessToken()
-            .then((data) => {
-              AsyncStorage.setItem('FBtoken', data.accessToken, (err) => {
-                if (err) {
-                  console.log('ERROR: ', err);
-                } else {
-                  console.log('Successfully saved FB token: ', data.accessToken);
-                  AsyncStorage.getItem('FBtoken', (e, storageData) => console.log('AsyncStorage getItem: ', storageData));
-                }
-              });
-            });
-          }
-        }
-      }
-      onLogoutFinished={() => console.log('logout.')}
-    />
-  </View>
-);
+class FacebookLoginButton extends Component {
+  render() {
+    const _this = this;
+    return (
+      <FBLogin
+        style={{ marginBottom: 10 }}
+        ref={(fbLogin) => { this.fbLogin = fbLogin; }}
+        permissions={['email', 'user_friends']}
+        loginBehavior={FBLoginManager.LoginBehaviors.Native}
+        onLogin={(data) => {
+          console.log('Logged in!');
+          console.log(data);
+          _this.setState({ user: data.credentials });
+        }}
+        onLogout={() => {
+          console.log('Logged out.');
+          _this.setState({ user: null });
+        }}
+        onLoginFound={(data) => {
+          console.log('Existing login found.');
+          console.log(data);
+          _this.setState({ user: data.credentials });
+        }}
+        onLoginNotFound={() => {
+          console.log('No user logged in.');
+          _this.setState({ user: null });
+        }}
+        onError={(data) => {
+          console.log('ERROR');
+          console.log(data);
+        }}
+        onCancel={() => {
+          console.log('User cancelled.');
+        }}
+        onPermissionsMissing={(data) => {
+          console.log('Check permissions!');
+          console.log(data);
+        }}
+      />
+    );
+  }
+}
 
 export default FacebookLoginButton;
