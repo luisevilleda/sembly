@@ -13,8 +13,6 @@ import LoginPage from './LoginPage';
 import Map from './Map';
 import Profile from './Profile';
 import Feed from './Feed';
-import FacebookLoginButton from './FacebookLoginButton';
-
 
 let app;
 
