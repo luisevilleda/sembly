@@ -10,6 +10,33 @@ class FacebookLoginButton extends Component {
     };
   }
 
+  getFbInfo(data) {
+    return new Promise((resolve, reject) => {
+      const fields = 'email, name';
+      fetch(`https://graph.facebook.com/v2.8/${data.credentials.userId}/?access_token=${data.credentials.token}&fields=${fields}`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+      .then(res => res.json())
+      .then((res) => {
+        resolve({
+          token: data.credentials.token,
+          name: res.name,
+          email: res.email,
+          userId: res.id,
+        });
+      })
+      .catch((err) => {
+        console.log('ERR FETCH: ', err);
+        reject(err);
+      });
+    });
+  }
+
   render() {
     const _this = this;
     return (
@@ -20,8 +47,14 @@ class FacebookLoginButton extends Component {
         loginBehavior={FBLoginManager.LoginBehaviors.Native}
         onLogin={(data) => {
           console.log('Logged in!');
-          console.log(data);
-          _this.setState({ user: data.credentials });
+          console.log('FRESH LOGIN', data);
+          const fbInfoRequest = _this.getFbInfo(data);
+          fbInfoRequest.then((res) => {
+            _this.setState({ user: data.credentials });
+            _this.props.onLogin(res);
+            console.log('SEND RES TO onLogin:', res);
+          })
+          .catch(err => console.log('ERROR: ', err));
         }}
         onLogout={() => {
           console.log('Logged out.');
@@ -29,39 +62,11 @@ class FacebookLoginButton extends Component {
         }}
         onLoginFound={(data) => {
           console.log('Existing login found.');
-          let name = null;
-          let email = null;
-          let userId = null;
-          const fbInfoRequest = new Promise((resolve, reject) => {
-            const fields = 'email, name';
-            fetch(`https://graph.facebook.com/v2.8/${data.credentials.userId}/?access_token=${data.credentials.token}&fields=${fields}`,
-              {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                },
-              })
-            .then(res => res.json())
-            .then((res) => {
-              name = res.name;
-              email = res.email;
-              userId = res.id;
-              resolve(res);
-            })
-            .catch((err) => {
-              console.log('ERR FETCH: ', err);
-              reject(err);
-            });
-          });
-          fbInfoRequest.then(() => {
+          const fbInfoRequest = _this.getFbInfo(data);
+          fbInfoRequest.then((res) => {
             _this.setState({ user: data.credentials });
-            _this.props.onLogin({
-              token: data.credentials.token,
-              userId,
-              name,
-              email,
-            });
+            _this.props.onLogin(res);
+            console.log('SEND RES TO onLogin:', res);
           })
           .catch(err => console.log('ERROR: ', err));
         }}
