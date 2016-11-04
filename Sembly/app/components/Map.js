@@ -8,7 +8,7 @@ import {
   Dimensions
 } from 'react-native';
 
-import Spinner from './Spinner'
+import Spinner from './Spinner';
 
 import MapView from 'react-native-maps';
 import NewEventModal from './NewEventModal';
@@ -46,10 +46,14 @@ export default class Map extends Component {
       },
     };
 
+    this.createEvent = this.createEvent.bind(this);
     this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   fetchEvents() {
+    console.log('fetch events bundle with:');
+    console.log('userId:', this.props.user._id);
+    console.log('location', this.props.mongoLocation);
     fetch('http://localhost:3000/api/events/bundle', {
       method: 'POST',
       headers: {
