@@ -1,7 +1,15 @@
 import React, { PropTypes, Component } from 'react';
 import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
+import Promise from 'bluebird';
 
 class FacebookLoginButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
+
   render() {
     const _this = this;
     return (
@@ -21,8 +29,41 @@ class FacebookLoginButton extends Component {
         }}
         onLoginFound={(data) => {
           console.log('Existing login found.');
-          console.log(data);
-          _this.setState({ user: data.credentials });
+          let name = null;
+          let email = null;
+          let userId = null;
+          const fbInfoRequest = new Promise((resolve, reject) => {
+            const fields = 'email, name';
+            fetch(`https://graph.facebook.com/v2.8/${data.credentials.userId}/?access_token=${data.credentials.token}&fields=${fields}`,
+              {
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+              })
+            .then(res => res.json())
+            .then((res) => {
+              name = res.name;
+              email = res.email;
+              userId = res.id;
+              resolve(res);
+            })
+            .catch((err) => {
+              console.log('ERR FETCH: ', err);
+              reject(err);
+            });
+          });
+          fbInfoRequest.then(() => {
+            _this.setState({ user: data.credentials });
+            _this.props.onLogin({
+              token: data.credentials.token,
+              userId,
+              name,
+              email,
+            });
+          })
+          .catch(err => console.log('ERROR: ', err));
         }}
         onLoginNotFound={() => {
           console.log('No user logged in.');
