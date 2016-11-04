@@ -34,7 +34,9 @@ export default class Map extends Component {
   }
 
   fetchEvents () {
-    fetch('http://localhost:3000/api/events/bundle', {
+    // fetch('http://localhost:3000/api/events/bundle', {
+    // eslint-disable-next-line no-undef
+    fetch('http://192.168.122.1:3000/api/events/bundle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

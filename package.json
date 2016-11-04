@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "test": "mocha ./specs",
-    "start": "node server/server.js production",
+    "start": "nodemon server/server.js production",
     "populate": "node testData.js"
   },
   "repository": {
@@ -26,6 +26,8 @@
     "material-ui": "^0.16.1",
     "mongodb": "^2.2.10",
     "mongoose": "^4.6.4",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.11.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-tap-event-plugin": "^1.0.0"
@@ -44,5 +46,16 @@
     "sinon": "^1.17.6",
     "supertest": "^2.0.1",
     "webpack": "^1.13.2"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "env": {
+      "mocha": true
+    },
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import"
+    ]
   }
 }
