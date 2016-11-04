@@ -61,7 +61,7 @@ export default class LoginPage extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     })
-     .then(response => response.json())
+     // .then(response => response.json())
      // .then((res) => console.log(res))
      .then((user) => {
       //Temp until chash responds with a real user
@@ -70,7 +70,10 @@ export default class LoginPage extends Component {
        this.props.setUser(user);
        this.navigate();
      })
-     .catch(err => console.log('LoginPage ERR, make sure you npm start the backend server in the root folder ', err));
+     .catch((err) => {
+        console.log('LoginPage ERR, make sure you npm start the backend server in the root folder ', err)
+        this.navigate();
+    });
   }
 
   render() {
