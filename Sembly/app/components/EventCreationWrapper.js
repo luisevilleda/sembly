@@ -9,6 +9,7 @@ import { MKColor } from 'react-native-material-kit';
 import ExpandingButton from './ExpandingButton';
 import DroppingPin from './DroppingPin';
 import NewEventModal from './NewEventModal';
+import SpinInButton from './SpinInButton';
 
 /* eslint-disable react/jsx-filename-extension */
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent',
   },
-  button: {
+  createEventButton: {
     bottom: 32,
     position: 'absolute',
     backgroundColor: MKColor.Indigo,
@@ -31,6 +32,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.7,
     shadowColor: 'black',
     elevation: 4,
+  },
+  closeSetEventButton: {
+    bottom: 72,
+    right: 32,
+    position: 'absolute',
+    backgroundColor: '#393939',
+    opacity: 0.97,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.7,
+    shadowColor: 'black',
+    elevation: 6,
   },
 });
 
@@ -41,39 +54,63 @@ export default class EventCreationWrapper extends Component {
 
     this.handleClosedPress = this.handleClosedPress.bind(this);
     this.handleOpenedPress = this.handleOpenedPress.bind(this);
+    this.cancelSetPin = this.cancelSetPin.bind(this);
+    this.modalIsClosing = this.modalIsClosing.bind(this);
   }
 
   handleClosedPress() {
     this.droppingPin.dropPin();
+    this.cancelButton.show();
   }
 
   handleOpenedPress() {
     this.eventModal.open();
   }
 
+  cancelSetPin() {
+    this.cancelButton.hide();
+    this.droppingPin.resetPin();
+    this.createButton.toggleOpenedClosed();
+  }
+
+  modalIsClosing() {
+    this.droppingPin.resetPin();
+    this.cancelButton.hide();
+  }
+
   render() {
     return (
       <View style={styles.container} pointerEvents="box-none">
         <ExpandingButton
+          ref={(x) => { this.createButton = x; }}
           height={64}
           align="right"
           horizontalMargin={32}
           closedText="+"
           openedText="Place Event"
           transitionLength={300}
-          style={styles.button}
+          style={styles.createEventButton}
           closedAction={this.handleClosedPress}
           openedAction={this.handleOpenedPress}
         />
+        <SpinInButton
+          ref={(x) => { this.cancelButton = x; }}
+          size={48}
+          xColor="#eee"
+          transitionLength={200}
+          style={styles.closeSetEventButton}
+          action={this.cancelSetPin}
+        />
         <DroppingPin
           ref={(x) => { this.droppingPin = x; }}
-          height={50}
+          height={75}
           styleSheet={styles}
         />
         <NewEventModal
           ref={(x) => { this.eventModal = x; }}
           createEvent={this.props.createEvent}
           userId={this.props.user._id} // currently just used to fetch friends. would love to get rid of this
+          modalIsClosing={this.modalIsClosing}
         />
       </View>
     );

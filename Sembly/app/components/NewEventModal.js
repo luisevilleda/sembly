@@ -113,6 +113,9 @@ export default class NewEventModal extends Component {
 
   componentWillMount() {
     this.setFriends();
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setFriends() {
@@ -193,6 +196,7 @@ export default class NewEventModal extends Component {
 
   close() {
     this.refs.newEventModal.close();
+    this.props.modalIsClosing();
   }
 
   render() {
@@ -202,7 +206,7 @@ export default class NewEventModal extends Component {
         <View>
           <View style={styles.closeButtonContainer}>
             <Text style={styles.errorText}>{this.state.errorText}</Text>
-            <TouchableOpacity onPress={() => context.refs.newEventModal.close()}>
+            <TouchableOpacity onPress={this.close}>
               <Icon style={styles.closeButton} name="close" />
             </TouchableOpacity>
           </View>
@@ -250,20 +254,25 @@ export default class NewEventModal extends Component {
 
           <View style={styles.visibilityCheck}>
             <Text>Make your event invite only?</Text>
-            <MKCheckbox ref={'visibilityCheckbox'} checked={false}/>
+            <MKCheckbox
+              ref={'visibilityCheckbox'}
+              checked={false}
+            />
           </View>
 
           <View style={styles.createEventButtonContainer}>
             <MKButton
               style={styles.createEventButton}
               shadowRadius={2}
-              shadowOffset={{width:0, height:2}}
-              shadowOpacity={.7}
+              shadowOffset={{ width: 0, height: 2 }}
+              shadowOpacity={0.7}
               shadowColor="black"
-              onPress={this.handleSubmit.bind(this)}
+              onPress={this.handleSubmit}
+            >
+              <Text
+                pointerEvents="none"
+                style={{ color: 'white', fontWeight: 'bold' }}
               >
-              <Text pointerEvents="none"
-                    style={{ color: 'white', fontWeight: 'bold' }}>
                 CREATE EVENT
               </Text>
             </MKButton>
@@ -275,11 +284,11 @@ export default class NewEventModal extends Component {
 }
 
 NewEventModal.defaultProps = {
-  modalVisibility: false,
+  modalIsClosing: null,
 };
 
 NewEventModal.propTypes = {
-  modalVisibility: React.PropTypes.bool,
   createEvent: React.PropTypes.func.isRequired,
+  modalIsClosing: React.PropTypes.func,
 };
 
