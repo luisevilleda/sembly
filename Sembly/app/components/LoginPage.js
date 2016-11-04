@@ -54,18 +54,20 @@ export default class LoginPage extends Component {
     });
   }
 
-  login() {
+  login(userData) {
     this.setState({ loading: true });
     fetch('http://localhost:3000/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'spencer@test.com', password: 'test' }),
+      body: JSON.stringify(userData),
     })
      .then(response => response.json())
+     // .then((res) => console.log(res))
      .then((user) => {
        this.props.setUser(user);
        this.navigate();
-     });
+     })
+     .catch(err => console.log('LoginPage ERR, make sure you npm start the backend server in the root folder ', err));
   }
 
   render() {
@@ -79,7 +81,7 @@ export default class LoginPage extends Component {
             <TouchableOpacity onPress={() => { this.login(); }} style={styles.button}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
-            <FacebookLoginButton />
+            <FacebookLoginButton onLogin={userData => this.login(userData)} />
           </View>
         </View>
       );

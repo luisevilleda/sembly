@@ -13,8 +13,6 @@ import LoginPage from './LoginPage';
 import Map from './Map';
 import Profile from './Profile';
 import Feed from './Feed';
-import FacebookLoginButton from './FacebookLoginButton';
-
 
 let app;
 
@@ -26,6 +24,14 @@ const styles = StyleSheet.create({
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: {
+        token: null,
+        userId: null,
+        name: null,
+      },
+    };
+
     app = this;
   }
 
