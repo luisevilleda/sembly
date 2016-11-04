@@ -40,6 +40,8 @@
 		A049DE131DCAAB3F001794ED /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A049DE0F1DCAAB3F001794ED /* FBSDKShareKit.framework */; };
 		A071A6D91DCBD9BD0074D1A3 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A071A6C51DCBD97C0074D1A3 /* libRCTFBLogin.a */; };
 		C0C8BE0DA6B6406699A50148 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAF8038A3E3499AB33D0DE4 /* libRCTMaterialKit.a */; };
+		736C809BEE7E4E8882A0FF03 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E9BA6F842849A6905ABC0F /* libRCTFBSDK.a */; };
+		FAC97B4B06BF4DB1AAD02B18 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 956A7EDFB9F74720AB31BFD8 /* libRNSVG.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +245,10 @@
 		A049DEC51DCAD5A9001794ED /* Sembly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Sembly.entitlements; path = Sembly/Sembly.entitlements; sourceTree = "<group>"; };
 		A071A6BE1DCBD97C0074D1A3 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		BE6FA5DD60E14AAD937AEEFB /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
+		728DC45B49F046A897BE692D /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBSDK.xcodeproj"; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		46E9BA6F842849A6905ABC0F /* libRCTFBSDK.a */ = {isa = PBXFileReference; name = "libRCTFBSDK.a"; path = "libRCTFBSDK.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5452713D7F1E4431A86714B2 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; name = "RNSVG.xcodeproj"; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		956A7EDFB9F74720AB31BFD8 /* libRNSVG.a */ = {isa = PBXFileReference; name = "libRNSVG.a"; path = "libRNSVG.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +282,8 @@
 				233B2FF5E3344855A2DD9323 /* libRNVectorIcons.a in Frameworks */,
 				A049DE121DCAAB3F001794ED /* FBSDKLoginKit.framework in Frameworks */,
 				A049DE101DCAAB3F001794ED /* Bolts.framework in Frameworks */,
+				736C809BEE7E4E8882A0FF03 /* libRCTFBSDK.a in Frameworks */,
+				FAC97B4B06BF4DB1AAD02B18 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +448,8 @@
 				984BC81E3DEE45FF93C70790 /* RCTMaterialKit.xcodeproj */,
 				BE6FA5DD60E14AAD937AEEFB /* AirMaps.xcodeproj */,
 				4DEA8E5A9F9F46549AD2DE81 /* RNVectorIcons.xcodeproj */,
+				728DC45B49F046A897BE692D /* RCTFBSDK.xcodeproj */,
+				5452713D7F1E4431A86714B2 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -895,6 +905,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sembly.app/Sembly";
@@ -911,6 +923,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sembly.app/Sembly";
@@ -938,6 +952,8 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = Sembly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -971,6 +987,8 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = Sembly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1025,6 +1043,8 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1068,6 +1088,8 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
