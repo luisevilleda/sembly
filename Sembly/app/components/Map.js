@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
+
   Dimensions,
 } from 'react-native';
+import MapView from 'react-native-maps';
 
 import MapView from 'react-native-maps';
 import Spinner from './Spinner';
 import OurDrawer from './OurDrawer';
 import _navigate from './navigateConfig';
+
 import EventCreationWrapper from './EventCreationWrapper';
 import { getUser } from '../controllers/userStorageController';
 
