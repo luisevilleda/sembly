@@ -7,10 +7,5 @@ module.exports = (req, res) => {
         .status(200)
         .json(user);
     })
-    .catch((error) => {
-      console.log('oh no, error in login method!!');
-      console.log(error);
-      console.log(error.message);
-      res.status(400).json({ message: error.message });
-    });
+    .catch(error => res.status(400).json({ message: error.message }));
 };
