@@ -35,5 +35,4 @@ module.exports = userData =>
     )
     .populate('requests').exec();
   })
-  .then(savedUser => savedUser)
-  .catch(error => console.error('Error logging in user:', error.message));
+  .then(savedUser => savedUser);
