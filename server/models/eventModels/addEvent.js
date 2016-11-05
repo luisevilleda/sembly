@@ -1,11 +1,11 @@
 // addEvent
-var Event = require('../../schemas/eventsSchema');
-var User = require('../../schemas/userSchema');
+const Event = require('../../schemas/eventsSchema');
+const User = require('../../schemas/userSchema');
 
 module.exports = (event) => {
-  var newEvent = new Event(event);
+  const newEvent = new Event(event);
   return newEvent.save()
-  .then( event => {
+  .then((event) => {
   	return Promise.all(
   		event.invitedUsers.map( user => {
   			return addInvites(event._id, user)

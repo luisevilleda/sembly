@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import {
-  StatusBar,
   StyleSheet,
-  Text,
   View,
-  Navigator,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
-import Spinner from './Spinner';
-
 import MapView from 'react-native-maps';
-import NewEventModal from './NewEventModal';
+import Spinner from './Spinner';
 import OurDrawer from './OurDrawer';
 import _navigate from './navigateConfig';
-import NewEventFab from './NewEventFab';
 import EventCreationWrapper from './EventCreationWrapper';
+import { getUser } from '../controllers/userStorageController';
 
 /* eslint-disable react/jsx-filename-extension */
 
@@ -50,34 +45,34 @@ export default class Map extends Component {
     this.onRegionChange = this.onRegionChange.bind(this);
   }
 
-  fetchEvents() {
-    console.log('fetch events bundle with:');
-    console.log('userId:', this.props.user._id);
-    console.log('location', this.props.mongoLocation);
-    fetch('http://localhost:3000/api/events/bundle', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: this.props.user._id,
-        location: this.props.mongoLocation,
-      }),
-    })
-    .then(data => data.json())
-    .then(data => this.setState({ markers: data, loading: false }))
-    .catch((err) => {
-      console.log(err);
-      this.setState({ loading: false });
-    });
+  componentWillMount() {
+    this.fetchEvents();
   }
 
   onRegionChange(region) {
     this.setState({ region });
   }
 
-  componentWillMount() {
-    this.fetchEvents();
+  fetchEvents() {
+    getUser()
+    .then(user =>
+      fetch('http://localhost:3000/api/events/bundle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          facebookId: user.facebookId,
+          location: this.props.mongoLocation,
+        }),
+      })
+      .then(data => data.json())
+      .then(data => this.setState({ markers: data, loading: false }))
+    )
+    .catch((error) => {
+      console.log('Error fetching events', error.message);
+      throw error;
+    });
   }
 
   openModal() {
@@ -85,20 +80,28 @@ export default class Map extends Component {
   }
 
   createEvent(modalEventData) {
-    const mapLevelEventData = {
-      location: [this.state.region.longitude, this.state.region.latitude],
-      hostId: this.props.user._id,
-    };
+    return getUser()
+    .then((user) => {
+      const facebookId = user.facebookId;
+      const mapLevelEventData = {
+        location: [this.state.region.longitude, this.state.region.latitude],
+        hostId: facebookId,
+      };
 
-    const eventData = Object.assign({}, modalEventData, mapLevelEventData);
+      const eventData = Object.assign({}, modalEventData, mapLevelEventData);
 
-    return fetch('http://localhost:3000/api/events',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventData),
-      }
-    );
+      return fetch('http://localhost:3000/api/events',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData),
+        }
+      );
+    })
+    .catch((error) => {
+      console.log('Error creating event', error.message);
+      throw error;
+    });
   }
 
   render() {
@@ -142,9 +145,6 @@ export default class Map extends Component {
               })}
             </MapView>
             <EventCreationWrapper user={this.props.user} createEvent={this.createEvent} />
-            {/*
-            <NewEventFab onPress={this.openModal.bind(this)}/>
-            */}
           </View>
         </OurDrawer>
       )

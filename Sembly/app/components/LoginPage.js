@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  AsyncStorage,
   // Navigator,
   // TouchableHighlight,
   TouchableOpacity,
@@ -11,6 +10,9 @@ import {
 
 import Spinner from './Spinner';
 import FacebookLoginButton from './FacebookLoginButton';
+import { setUser } from '../controllers/userStorageController';
+
+/* eslint-disable react/jsx-filename-extension */
 
 const styles = StyleSheet.create({
   container: {
@@ -40,20 +42,7 @@ export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false };
-
-    this.setUser = userObj =>
-      new Promise((resolve, reject) =>
-        AsyncStorage.setItem('user', JSON.stringify(userObj), (err) => {
-          if (err) {
-            console.log('Error setting user: ', err);
-            reject(err);
-          } else {
-            console.log('Successfully saved user to AsyncStorage \'user\'');
-            resolve();
-          }
-        }
-      )
-    );
+    this.serverLoginFromFacebookData = this.serverLoginFromFacebookData.bind(this);
   }
 
   componentWillMount() {
@@ -66,26 +55,19 @@ export default class LoginPage extends Component {
     });
   }
 
-  login(userData) {
-    console.log('USERDATA TO CASH', userData);
+  serverLoginFromFacebookData(facebookUserData) {
     this.setState({ loading: true });
-    fetch('http://localhost:3000/api/users/login', {
+    return fetch('http://localhost:3000/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(facebookUserData),
     })
     .then(response => response.json())
-    // .then((res) => console.log(res))
-    .then((user) => {
-      this.setUser(user)
-      .then(() =>
-        this.navigate()
-      );
-    })
-    .catch((err) => {
-      console.log('LoginPage ERR, make sure you npm start the backend server in the root folder, also server might be responding with a 404. ', err);
-      // Remove this navigate after we actually get a response
-      this.navigate();
+    .then(user => {console.log(user);setUser(user);})
+    .then(() => this.navigate())
+    .catch((error) => {
+      console.log('Login Error; make sure you npm start the backend server in the root folder, also server might be responding with a 404. ', error.message);
+      throw error;
     });
   }
 
@@ -93,17 +75,12 @@ export default class LoginPage extends Component {
     if (this.state.loading) {
       return (<View style={styles.container}><Spinner /></View>);
     }
-    else {
-      return (
-        <View>
-          <View style={styles.container}>
-            <TouchableOpacity onPress={() => { this.login(); }} style={styles.button}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <FacebookLoginButton onLogin={userData => this.login(userData)} />
-          </View>
+    return (
+      <View>
+        <View style={styles.container}>
+          <FacebookLoginButton onLogin={this.serverLoginFromFacebookData} />
         </View>
-      );
-    }
+      </View>
+    );
   }
 }

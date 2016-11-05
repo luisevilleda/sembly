@@ -61,6 +61,7 @@ export default class EventCreationWrapper extends Component {
   handleClosedPress() {
     this.droppingPin.dropPin();
     this.cancelButton.show();
+    this.createButton.open();
   }
 
   handleOpenedPress() {
@@ -70,12 +71,13 @@ export default class EventCreationWrapper extends Component {
   cancelSetPin() {
     this.cancelButton.hide();
     this.droppingPin.resetPin();
-    this.createButton.toggleOpenedClosed();
+    this.createButton.close();
   }
 
   modalIsClosing() {
     this.droppingPin.resetPin();
     this.cancelButton.hide();
+    this.createButton.close();
   }
 
   render() {
