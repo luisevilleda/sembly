@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     marginRight: 10,
     color: 'gray',
-
   },
   image: {
     borderRadius: 50,
@@ -99,31 +98,31 @@ export default class Menu extends Component {
           </Text>
         </TouchableOpacity>
         <View style={styles.menuView}>
-          <TouchableOpacity style={styles.flowRight} onPress={()=> {this.props._navigate('Profile'); }} >
+          <TouchableOpacity style={styles.flowRight} onPress={() => { this.props._navigate('Profile'); }} >
               <Icon name='account-circle' style={styles.icon}></Icon>
               <View style={styles.listTouchable}>
                 <Text style={styles.listElem}>Profile</Text>
               </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flowRight} onPress={()=> {this.props._navigate('Map'); }} >
+          <TouchableOpacity style={styles.flowRight} onPress={() => { this.props._navigate('Map'); }} >
             <Icon name='location-on' style={styles.icon}></Icon>
             <View style={styles.listTouchable}>
               <Text style={styles.listElem}>Map</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flowRight} onPress={()=> {this.props._navigate('Feed'); }} >
+          <TouchableOpacity style={styles.flowRight} onPress={() => { this.props._navigate('Feed'); }} >
             <Icon name='format-list-bulleted' style={styles.icon}></Icon>
             <View style={styles.listTouchable}>
               <Text style={styles.listElem}>Feed</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flowRight} onPress={()=> {this.props._navigate('Invites'); }} >
+          <TouchableOpacity style={styles.flowRight} onPress={() => { this.props._navigate('Invites'); }} >
             <Icon name='mail' style={styles.icon}></Icon>
             <View style={styles.listTouchable}>
               <Text style={styles.listElem}>Invites</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flowRight} onPress={()=> {this.props._navigate('Saved'); }} >
+          <TouchableOpacity style={styles.flowRight} onPress={() => { this.props._navigate('Saved'); }} >
             <Icon name='archive' style={styles.icon}></Icon>
             <View style={styles.listTouchable}>
               <Text style={styles.listElem}>Saved</Text>

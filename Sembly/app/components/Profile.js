@@ -236,14 +236,14 @@ export default class Profile extends Component {
 
 
     return (
-      <OurDrawer user={this.props.user} topBarName={'Profile'} _navigate={_navigate.bind(this)}>
+      <OurDrawer user={this.state.user} topBarName={'Profile'} _navigate={_navigate.bind(this)}>
         <View style={styles.container}>
-          <Image style={styles.image} source={{uri: this.props.user.photoUrl}}/>
+          <Image style={styles.image} source={{ uri: this.state.user.photoUrl }} />
           <Text style={styles.description}>
-            {this.props.user.firstName + ' ' + this.props.user.lastName}
+            {this.state.user.name}
           </Text>
           <Text style={styles.description}>
-            {this.props.user.email}
+            {this.state.user.email}
           </Text>
           <View style={styles.innerNav}>
             <TouchableOpacity onPress={this.filterFriends.bind(this)} style={this.state.friendS}>
