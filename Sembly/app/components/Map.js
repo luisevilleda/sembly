@@ -43,6 +43,7 @@ export default class Map extends Component {
 
     this.createEvent = this.createEvent.bind(this);
     this.onRegionChange = this.onRegionChange.bind(this);
+    this.fetchEvents = this.fetchEvents.bind(this);
   }
 
   componentWillMount() {
@@ -144,7 +145,7 @@ export default class Map extends Component {
                 );
               })}
             </MapView>
-            <EventCreationWrapper user={this.props.user} createEvent={this.createEvent} />
+            <EventCreationWrapper user={this.props.user} createEvent={this.createEvent} eventCreatedHandler={this.fetchEvents} />
           </View>
         </OurDrawer>
       );

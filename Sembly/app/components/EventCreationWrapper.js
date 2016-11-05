@@ -111,6 +111,7 @@ export default class EventCreationWrapper extends Component {
         <NewEventModal
           ref={(x) => { this.eventModal = x; }}
           createEvent={this.props.createEvent}
+          eventCreatedHandler={this.props.eventCreatedHandler}
           userId={this.props.user._id} // currently just used to fetch friends. would love to get rid of this
           modalIsClosing={this.modalIsClosing}
         />
@@ -121,4 +122,5 @@ export default class EventCreationWrapper extends Component {
 
 EventCreationWrapper.propTypes = {
   createEvent: React.PropTypes.func.isRequired,
+  eventCreatedHandler: React.PropTypes.func,
 };

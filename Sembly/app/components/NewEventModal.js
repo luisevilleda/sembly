@@ -176,12 +176,13 @@ export default class NewEventModal extends Component {
           newEventStartTime: new Date(),
           newEventTags: '',
         });
+        this.props.eventCreatedHandler();
         setTimeout(() => {
           this.close();
           this.setState({
             errorText: '',
           });
-        }, 1500);
+        }, 1000);
       })
       .catch(() => {
         this.setState({
@@ -195,7 +196,7 @@ export default class NewEventModal extends Component {
           this.setState({
             errorText: '',
           });
-        }, 1500);
+        }, 2500);
       });
   }
 
@@ -306,5 +307,6 @@ NewEventModal.defaultProps = {
 NewEventModal.propTypes = {
   createEvent: React.PropTypes.func.isRequired,
   modalIsClosing: React.PropTypes.func,
+  eventCreatedHandler: React.PropTypes.func,
 };
 
