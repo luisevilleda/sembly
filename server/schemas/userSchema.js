@@ -17,6 +17,8 @@ const UserSchema = new Schema({
     unique: true,
     required: true,
   },
+  gender: String,
+  token: String,
   friends: [{ type: Schema.ObjectId, ref: 'User' }],
   requests: [{ type: Schema.ObjectId, ref: 'User' }],
   saved: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
