@@ -1,5 +1,7 @@
+const logIn = require('./logIn');
+const userSearch = require('./userSearch');
+
 module.exports = {
-  addUser: require('./addUser'),
-  logIn: require('./logIn'),
-  userSearch: require('./userSearch'),
+  logIn,
+  userSearch,
 };

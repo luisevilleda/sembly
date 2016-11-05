@@ -1,10 +1,6 @@
-// getRequests.js
+const User = require('../../schemas/userSchema');
 
-
-var User = require('../../schemas/userSchema')
-
-module.exports = (userId) => {
-	return User.findOne({'_id': userId})
-	.populate('requests')
-	.exec();
-}
+module.exports = facebookId =>
+  User.findOne({ facebookId })
+    .populate('requests')
+    .exec();
