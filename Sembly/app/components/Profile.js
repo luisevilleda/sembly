@@ -123,7 +123,7 @@ export default class Profile extends Component {
     fetch('http://localhost:3000/api/friends/getRequests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: this.state.user.facebookId }),
+      body: JSON.stringify({ facebookId: this.state.user.facebookId }),
     })
     .then(response => response.json())
     .then(requests => this.setState({ requests }))
@@ -137,10 +137,10 @@ export default class Profile extends Component {
     fetch('http://localhost:3000/api/friends/getFriends', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: this.state.user.facebookId, search, }),
+      body: JSON.stringify({ facebookId: this.state.user.facebookId, search }),
     })
     .then(response => response.json())
-    .then( (friends) => {
+    .then((friends) => {
       if (search.length > 0) {
         this.setState({
           feed: friends,
@@ -148,7 +148,6 @@ export default class Profile extends Component {
         });
       }
       if (search.length === 0) {
-
         this.setState({
           feed: friends,
           friends,
