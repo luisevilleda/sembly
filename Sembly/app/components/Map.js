@@ -147,7 +147,7 @@ export default class Map extends Component {
             <EventCreationWrapper user={this.props.user} createEvent={this.createEvent} />
           </View>
         </OurDrawer>
-      )
+      );
     }
   }
 }
