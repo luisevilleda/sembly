@@ -63,10 +63,10 @@ export default class Feed extends Component {
     .then(response => {
       return response.json();
     })
-    .then( events => {
-      this.setState({events: events, loading: false});
+    .then(events => {
+      this.setState({ events: events, loading: false });
     })
-    .catch( error => {
+    .catch(error => {
       console.log(error);
     });
   }
@@ -74,7 +74,7 @@ export default class Feed extends Component {
     fetch('http://localhost:3000/api/events/bundle', {
       method: 'POST',
       headers: { 'Content-Type' : 'application/json' },
-      body: JSON.stringify({userId: this.props.user.facebookId, location: this.props.mongoLocation})
+      body: JSON.stringify({ userId: this.props.user.facebookId, location: this.props.mongoLocation })
     })
     .then(response => response.json())
     .then(events => this.setState({ events, loading: false }))
@@ -84,7 +84,7 @@ export default class Feed extends Component {
     if (this.state.eventModal) {
       return <EventModal close={this.closeEvent.bind(this)} user={this.props.user} visibility={this.state.eventModal} event={this.state.eventId} />
     } else {
-      return (<View></View>)
+      return (<View></View>);
     }
   }
 
@@ -96,12 +96,12 @@ export default class Feed extends Component {
             <Spinner />
           </View>
         </OurDrawer>
-      )
+      );
     }
     return (
       <OurDrawer user={this.props.user} topBarFilterVisible={false} topBarName={this.props.name} _navigate={_navigate.bind(this)}>
         <ScrollView>
-          {this.state.events.map((event, index) => <EventCard key={index} openModal={this.openEvent.bind(this)} event={event} index={index}/>)}
+          {this.state.events.map((event, index) => <EventCard key={index} openModal={this.openEvent.bind(this)} event={event} index={index} />)}
         </ScrollView>
         <NewEventFab
           onPress={
