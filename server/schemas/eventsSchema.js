@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var User = require('./userSchema');
 var eventSchema = new Schema({
   id: Schema.Types.ObjectId,
+  hostId: Schema.Types.String,
   name: String,
   location: {
     type: [Number],

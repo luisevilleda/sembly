@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
 import Promise from 'bluebird';
+import { destroyUser } from '../controllers/userStorageController';
 
 class FacebookLoginButton extends Component {
   constructor(props) {
@@ -52,18 +53,6 @@ class FacebookLoginButton extends Component {
       }
     );
 
-    this.setUser = userObj =>
-      new Promise((resolve, reject) =>
-        AsyncStorage.setItem('user', JSON.stringify(userObj), (err) => {
-          if (err) {
-            console.log('Error setting user: ', err);
-            reject(err);
-          } else {
-            resolve();
-          }
-        })
-      );
-
     this.handleLoginData = (data, _this) => {
       const fbInfoRequest = _this.getFbInfo(data);
       fbInfoRequest.then(userObj =>
@@ -77,21 +66,16 @@ class FacebookLoginButton extends Component {
         //   console.log('SEND userObj TO onLogin:', userObj);
         // })
       )
-      .catch(err => console.log('ERROR: ', err));
+      .catch((err) => {
+        console.log('Error handling Facebook login data', err);
+      });
     };
 
-    this.handleLogout = () => {
-      const logoutAsync = new Promise((resolve, reject) => {
-        AsyncStorage.removeItem('user', (err) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
+    this.handleLogout = () =>
+      destroyUser()
+        .catch((error) => {
+          console.log('Error logging out user', error.message);
         });
-      });
-      logoutAsync.catch(err => console.log('Logout err: ', err));
-    };
   }
 
 

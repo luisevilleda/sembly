@@ -94,6 +94,8 @@ export default class ExpandingButton extends Component {
       );
 
     this.handlePress = this.handlePress.bind(this);
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
   }
 
   componentWillMount() {
@@ -135,15 +137,15 @@ export default class ExpandingButton extends Component {
     this.fadeOutText('textClosedOpacity').start();
     this.fadeInText('textOpenOpacity').start();
   }
+  
+  close() {
+    this.setState({ opened: false });
+    this.shrinkButton();
+  }
 
-  toggleOpenedClosed() {
-    if (this.state.opened) {
-      this.setState({ opened: false });
-      this.shrinkButton();
-    } else {
-      this.setState({ opened: true });
-      this.expandButton();
-    }
+  open() {
+    this.setState({ opened: true });
+    this.expandButton();
   }
 
   handlePress() {
@@ -152,7 +154,6 @@ export default class ExpandingButton extends Component {
     } else if (!this.state.opened && this.props.closedAction) {
       this.props.closedAction();
     }
-    this.toggleOpenedClosed();
   }
 
   render() {

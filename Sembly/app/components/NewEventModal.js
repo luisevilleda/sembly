@@ -13,6 +13,7 @@ import {
 import Modal from 'react-native-modalbox';
 import { MKCheckbox, MKButton } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Spinner from './Spinner';
 
 /* eslint-disable react/jsx-filename-extension */
 
@@ -97,6 +98,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 40,
   },
+  spinner: {
+    padding: 20,
+    alignItems: 'center',
+  },
 });
 
 export default class NewEventModal extends Component {
@@ -108,14 +113,19 @@ export default class NewEventModal extends Component {
       newEventStartTime: new Date(),
       newEventTags: '',
       errorText: '',
+      submitting: false,
     };
   }
 
   componentWillMount() {
     this.setFriends();
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setFriends() {
+    // TODO: Not setting friends/bad response
     fetch('http://localhost:3000/api/friends/getFriends',
       {
         method: 'POST',
@@ -128,7 +138,10 @@ export default class NewEventModal extends Component {
       this.setState({
         friends,
       })
-    );
+    )
+    .catch((error) => {
+      console.log('Error setting friends', error.message);
+    });
   }
 
   handleSubmit() {
@@ -137,6 +150,8 @@ export default class NewEventModal extends Component {
       this.setState({ errorText: 'Please enter an event name!' });
       return;
     }
+
+    this.setState({ submitting: true });
 
     const eventToBePosted = {
       name: this.state.newEventName,
@@ -153,56 +168,55 @@ export default class NewEventModal extends Component {
       }
     });
 
-    // TODO: swap the create button for a spinner
-
     this.props.createEvent(eventToBePosted)
-    .then(() => {
-      // TODO: hide the spinner
-      this.setState({
-        errorText: 'Event created successfully!',
-        newEventName: '',
-        newEventStartTime: new Date(),
-        newEventTags: '',
-      });
-      setTimeout(() => {
-        this.refs.newEventModal.close();
+      .then(() => {
         this.setState({
-          errorText: '',
+          errorText: 'Event created successfully!',
+          newEventName: '',
+          newEventStartTime: new Date(),
+          newEventTags: '',
         });
-      }, 1000);
-    })
-    .catch(() => {
-      this.setState({
-        errorText: 'There was an error creating your event.',
-        newEventName: '',
-        newEventStartTime: new Date(),
-        newEventTags: '',
-      });
-      setTimeout(() => {
-        this.refs.newEventModal.close();
+        setTimeout(() => {
+          this.close();
+          this.setState({
+            errorText: '',
+          });
+        }, 1500);
+      })
+      .catch(() => {
         this.setState({
-          errorText: '',
+          errorText: 'There was an error creating your event.',
+          newEventName: '',
+          newEventStartTime: new Date(),
+          newEventTags: '',
         });
-      }, 1000);
-    });
+        setTimeout(() => {
+          this.close();
+          this.setState({
+            errorText: '',
+          });
+        }, 1500);
+      });
   }
 
   open() {
+    this.setState({ submitting: false });
     this.refs.newEventModal.open();
   }
 
   close() {
     this.refs.newEventModal.close();
+    this.props.modalIsClosing();
   }
 
   render() {
     const context = this;
     return (
-      <Modal ref={'newEventModal'} style={styles.modal}>
+      <Modal ref={'newEventModal'} style={styles.modal} onClosed={this.props.modalIsClosing}>
         <View>
           <View style={styles.closeButtonContainer}>
             <Text style={styles.errorText}>{this.state.errorText}</Text>
-            <TouchableOpacity onPress={() => context.refs.newEventModal.close()}>
+            <TouchableOpacity onPress={this.close}>
               <Icon style={styles.closeButton} name="close" />
             </TouchableOpacity>
           </View>
@@ -250,24 +264,35 @@ export default class NewEventModal extends Component {
 
           <View style={styles.visibilityCheck}>
             <Text>Make your event invite only?</Text>
-            <MKCheckbox ref={'visibilityCheckbox'} checked={false}/>
+            <MKCheckbox
+              ref={'visibilityCheckbox'}
+              checked={false}
+            />
           </View>
-
-          <View style={styles.createEventButtonContainer}>
-            <MKButton
-              style={styles.createEventButton}
-              shadowRadius={2}
-              shadowOffset={{width:0, height:2}}
-              shadowOpacity={.7}
-              shadowColor="black"
-              onPress={this.handleSubmit.bind(this)}
-              >
-              <Text pointerEvents="none"
-                    style={{ color: 'white', fontWeight: 'bold' }}>
-                CREATE EVENT
-              </Text>
-            </MKButton>
-          </View>
+          {
+            this.state.submitting ?
+              <View style={styles.spinner}>
+                <Spinner />
+              </View>
+            :
+              <View style={styles.createEventButtonContainer}>
+                <MKButton
+                  style={styles.createEventButton}
+                  shadowRadius={2}
+                  shadowOffset={{ width: 0, height: 2 }}
+                  shadowOpacity={0.7}
+                  shadowColor="black"
+                  onPress={this.handleSubmit}
+                >
+                  <Text
+                    pointerEvents="none"
+                    style={{ color: 'white', fontWeight: 'bold' }}
+                  >
+                    CREATE EVENT
+                  </Text>
+                </MKButton>
+              </View>
+          }
         </View>
       </Modal>
     );
@@ -275,11 +300,11 @@ export default class NewEventModal extends Component {
 }
 
 NewEventModal.defaultProps = {
-  modalVisibility: false,
+  modalIsClosing: null,
 };
 
 NewEventModal.propTypes = {
-  modalVisibility: React.PropTypes.bool,
   createEvent: React.PropTypes.func.isRequired,
+  modalIsClosing: React.PropTypes.func,
 };
 

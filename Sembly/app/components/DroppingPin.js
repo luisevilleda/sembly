@@ -57,7 +57,7 @@ class DroppingPin extends Component {
 
   render() {
     return (
-      <View pointerEvents="box-none" style={[this.props.styleSheet.container]} >
+      <View pointerEvents="none" style={[this.props.styleSheet.container]} >
 
         <AnimatedSVG
           height={this.props.height}
@@ -77,7 +77,7 @@ class DroppingPin extends Component {
             fill-rule="evenodd"
             clip-rule="evenodd"
             fill="#C0392B"
-            d="M170.453,277.481C111.5,278.192,63.777,229.965,63.834,171.357c0.059-59.548,47.391-108.012,109.139-106.765c57.479,1.161,104.133,46.768,104.343,106.542C277.523,230.043,229.652,278.281,170.453,277.481z M170.809,107.262c-35.352-0.09-64.054,28.257-64.2,63.406c-0.148,35.487,28.356,64.333,63.759,64.525c35.032,0.19,64.058-28.55,64.215-63.584C234.743,136.036,206.314,107.352,170.809,107.262z"
+            d="M172.973,64.592c-61.748-1.247-109.08,47.217-109.139,106.765c-0.057,58.608,47.666,106.835,106.619,106.124c59.199,0.8,107.07-47.438,106.863-106.347C277.106,111.359,230.453,65.753,172.973,64.592z"
           />
         </AnimatedSVG>
       </View>

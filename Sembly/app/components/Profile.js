@@ -113,24 +113,21 @@ export default class Profile extends Component {
     this.getNewRequests();
   }
 
-  searchUsers(search){
-    var search = search || '';
-    fetch('http://localhost:3000/api/users/'+ search,{
+  searchUsers(search = ''){
+    fetch(`http://localhost:3000/api/users/${search}`,{
       method: 'GET',
-      headers: { "Content-Type" : "application/json" }
-      // body: JSON.stringify({userId: this.props.user._id, search: search})
+      headers: { 'Content-Type': 'application/json' },
     })
-    .then(response => {
-      return response.json();
-    })
-    .then( users => {
+    .then(response => response.json())
+    .then((users) => {
       this.setState({
         feed: users,
-        loading: false
+        loading: false,
       });
     })
-    .catch( error => {
-      console.log(error);
+    .catch((error) => {
+      console.log('Error searching for users', error.message);
+      throw error;
     });
   }
 
@@ -152,8 +149,9 @@ export default class Profile extends Component {
           requests: requests
         });
      })
-     .catch( error => {
-      console.log(error);
+     .catch((error) => {
+      console.log('Error getting new friend requests', error.message);
+      throw error;
     });
   }
 
@@ -184,8 +182,9 @@ export default class Profile extends Component {
 
       // alert(this.props.user.friends.length)
     })
-    .catch( error => {
-      console.log(error);
+    .catch((error) => {
+      console.log('Error getting friends', error.message);
+      throw error;
     });
   }
 

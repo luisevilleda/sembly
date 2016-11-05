@@ -7,28 +7,44 @@ import {
   Navigator,
   ListView,
   TouchableOpacity,
-  Image
+  Image,
 } from 'react-native';
 
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { getUser } from '../controllers/userStorageController';
 
 export default class Menu extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: {
+        photoUrl: 'http://www.pd4pic.com/images/plain-dull-blank-smiley-yellow-face-icon.png',
+      },
+    };
   }
 
-        
+  componentWillMount() {
+    this.getUserInfoFromStorage();
+  }
+
+  getUserInfoFromStorage() {
+    getUser()
+    .then((user) => {
+      console.log(user);
+      this.setState({ user });
+    });
+  }
 
   render(){
     return (
       <View style={styles.outer}>
         <TouchableOpacity onPress={()=> {this.props._navigate('Profile')}} >
           <View style={styles.imageView}>
-              { this.props.user ? <Image style={styles.image} source={{uri: this.props.user.photoUrl}}/> : <Text></Text>}
+              { this.props.user ? <Image style={styles.image} source={{uri: this.state.user.photoUrl}}/> : <Text></Text>}
           </View>
           <Text style={styles.description}>
-             {this.props.user ? this.props.user.firstName + ' ' + this.props.user.lastName : <Text></Text>}
+             {this.state.user.name}
           </Text> 
         </TouchableOpacity>
         <View style={styles.menuView}>
