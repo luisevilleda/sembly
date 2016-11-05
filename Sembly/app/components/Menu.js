@@ -62,6 +62,11 @@ const styles = StyleSheet.create({
     color: 'black',
     alignItems: 'center',
   },
+  fbcontainer: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default class Menu extends Component {
@@ -128,7 +133,9 @@ export default class Menu extends Component {
               <Text style={styles.listElem}>Saved</Text>
             </View>
           </TouchableOpacity>
-          <FBLogin />
+          <View style={styles.fbcontainer}>
+            <FBLogin />
+          </View>
         </View>
       </View>
 
