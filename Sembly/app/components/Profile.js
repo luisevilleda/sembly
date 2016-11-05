@@ -3,8 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  // Navigator,
-  // TouchableHighlight,
   TouchableOpacity,
   TextInput,
   Image,

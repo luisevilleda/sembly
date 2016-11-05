@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-
   Dimensions,
 } from 'react-native';
-import MapView from 'react-native-maps';
-
 import MapView from 'react-native-maps';
 import Spinner from './Spinner';
 import OurDrawer from './OurDrawer';

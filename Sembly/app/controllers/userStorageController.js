@@ -33,7 +33,7 @@ const destroyUser = () =>
       } else {
         resolve();
       }
-    })
+    });
   });
 
 export { setUser, getUser, destroyUser };
