@@ -88,7 +88,7 @@ export default class Feed extends Component {
     }
   }
 
-  render(){
+  render() {
     if (this.state.loading) {
       return (
         <OurDrawer user={this.props.user} topBarFilterVisible={false} topBarName={'Feed'} _navigate={_navigate.bind(this)}>
@@ -103,19 +103,17 @@ export default class Feed extends Component {
         <ScrollView>
           {this.state.events.map((event, index) => <EventCard key={index} openModal={this.openEvent.bind(this)} event={event} index={index}/>)}
         </ScrollView>
-        <NewEventFab onPress={
-          () => {
-            this.props.navigator.resetTo({
-              name: 'Map',
-            });
+        <NewEventFab
+          onPress={
+            () => this.props.navigator.resetTo({ name: 'Map' })
           }
-        } />
+        />
         {this.getModal()}
         <NewEventModal visibility={this.state.addEventModal} />
       </OurDrawer>
     );
   }
-};
+}
 
 const drawerStyles = {
   drawer: {
