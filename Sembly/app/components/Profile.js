@@ -149,9 +149,6 @@ export default class Profile extends Component {
       }
       if (search.length === 0) {
 
-  onSearchTextChange(event) {
-    this.setState({ searchString: event.nativeEvent.text });
-  }
         this.setState({
           feed: friends,
           friends,
@@ -164,6 +161,10 @@ export default class Profile extends Component {
       console.log('Error getting friends', error.message);
       throw error;
     });
+  }
+
+  onSearchTextChange(event) {
+    this.setState({ searchString: event.nativeEvent.text });
   }
 
   filterFriends() {
