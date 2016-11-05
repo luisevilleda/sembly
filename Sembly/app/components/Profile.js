@@ -8,17 +8,11 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-
-// import Drawer from 'react-native-drawer';
-
 import Spinner from './Spinner';
-
-// import TopBar from './TopBar';
 import OurDrawer from './OurDrawer';
-// import Menu from './Menu';
 import UserCard from './UserCard';
-
 import _navigate from './navigateConfig';
+import { getUser } from '../controllers/userStorageController';
 
 const styles = StyleSheet.create({
   description: {
@@ -97,6 +91,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       loading: true,
       searchString: '',
       view: 'Friends',
@@ -107,8 +102,16 @@ export default class Profile extends Component {
   }
 
   componentWillMount() {
-    this.getFriends();
-    this.getNewRequests();
+    getUser()
+    .then(user => this.setState({ user }))
+    .then(() => {
+      this.getFriends();
+      this.getNewRequests();
+    })
+    .catch((error) => {
+      console.log('Error in componentWillMount', error.message);
+      throw error;
+    });
   }
 
 
@@ -116,51 +119,45 @@ export default class Profile extends Component {
   // every time we go back in we use the old version of the user when we logged in, not
   // the new version in the database
   // set new user each time a change is done?
-  getNewRequests(context){
-     fetch('http://localhost:3000/api/friends/getRequests',{
-       method: 'POST',
-       headers: { "Content-Type" : "application/json" },
-       body: JSON.stringify({userId: this.props.user._id})
-     })
-     .then(response => {
-       return response.json();
-     })
-     .then( requests => {
-        this.setState({
-          requests: requests
-        });
-     })
-     .catch((error) => {
+  getNewRequests() {
+    fetch('http://localhost:3000/api/friends/getRequests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: this.state.user.facebookId }),
+    })
+    .then(response => response.json())
+    .then(requests => this.setState({ requests }))
+    .catch((error) => {
       console.log('Error getting new friend requests', error.message);
       throw error;
     });
   }
 
-  getFriends(search){
-    var search = search || '';
-    fetch('http://localhost:3000/api/friends/getFriends',{
+  getFriends(search = '') {
+    fetch('http://localhost:3000/api/friends/getFriends', {
       method: 'POST',
-      headers: { "Content-Type" : "application/json" },
-      body: JSON.stringify({userId: this.props.user._id, search: search})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: this.state.user.facebookId, search, }),
     })
-    .then(response => {
-      return response.json();
-    })
-    .then( friends => {
-      if(search.length>0){
+    .then(response => response.json())
+    .then( (friends) => {
+      if (search.length > 0) {
         this.setState({
           feed: friends,
-          loading: false
+          loading: false,
         });
       }
-      if(search.length===0){
+      if (search.length === 0) {
+
+  onSearchTextChange(event) {
+    this.setState({ searchString: event.nativeEvent.text });
+  }
         this.setState({
           feed: friends,
-          friends: friends,
-          loading: false
-        })
+          friends,
+          loading: false,
+        });
       }
-
       // alert(this.props.user.friends.length)
     })
     .catch((error) => {
@@ -169,21 +166,22 @@ export default class Profile extends Component {
     });
   }
 
-  filterFriends(){
-    this.setState({view: 'Friends'});
-    this.setState({feed: this.state.friends,
-    friendS: styles.selected,
+  filterFriends() {
+    this.setState({ view: 'Friends' });
+    this.setState({ feed: this.state.friends,
+      friendS: styles.selected,
       requestS: styles.button,
-      userS:styles.button});
+      userS: styles.button,
+    });
   }
 
-  filterUsers(){
-    this.setState({view: 'Users'});
+  filterUsers() {
+    this.setState({ view: 'Users' });
     this.setState({
       feed: [],
       friendS: styles.button,
       requestS: styles.button,
-      userS:styles.selected
+      userS: styles.selected,
     });
   }
 
@@ -205,31 +203,27 @@ export default class Profile extends Component {
     });
   }
 
-  filterRequests(){
-    this.setState({view: 'Requests'});
-    this.setState({feed: this.state.requests,
-    friendS: styles.button,
+  filterRequests() {
+    this.setState({ view: 'Requests' });
+    this.setState({ feed: this.state.requests,
+      friendS: styles.button,
       requestS: styles.selected,
-      userS:styles.button});
+      userS: styles.button,
+    });
   }
 
-  onSearchTextChange(event){
-    this.setState({searchString: event.nativeEvent.text});
-  }
-
-  onSearchGo(){
-    if(this.state.view === 'Friends'){
+  onSearchGo() {
+    if (this.state.view === 'Friends') {
       this.getFriends(this.state.searchString);
     }
-    if(this.state.view === 'Requests'){
+    if (this.state.view === 'Requests') {
 
     }
-    if(this.state.view === 'Users'){
+    if (this.state.view === 'Users') {
       this.searchUsers(this.state.searchString);
     }
-
   }
-  render(){
+  render() {
     if (this.state.loading) {
       return (
         <OurDrawer topBarFilterVisible={false} topBarName={'Feed'} _navigate={_navigate.bind(this)}>
@@ -288,7 +282,7 @@ export default class Profile extends Component {
                   getNewRequests = {
                     (context) => this.getNewRequests(context)
                   }
-                  currentUserId={this.props.user._id}
+                  currentUserId={this.state.user.facebookId}
                   view={this.state.view}
                   user={friend}
                   index={index}/>

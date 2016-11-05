@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  // Navigator,
-  // TouchableHighlight,
-  TouchableOpacity,
 } from 'react-native';
 
 import Spinner from './Spinner';
@@ -64,7 +60,7 @@ export default class LoginPage extends Component {
       body: JSON.stringify(facebookUserData),
     })
     .then(response => response.json())
-    .then(user => {console.log(user);setUser(user);})
+    .then(user => setUser(user))
     .then(() => this.navigate())
     .catch((error) => {
       console.log('Login Error; make sure you npm start the backend server in the root folder, also server might be responding with a 404. ', error.message);
