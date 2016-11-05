@@ -3,31 +3,31 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-  TouchableHighlight,
+  // Navigator,
+  // TouchableHighlight,
   TouchableOpacity,
   TextInput,
   Image,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 
-import Drawer from 'react-native-drawer';
+// import Drawer from 'react-native-drawer';
 
-import Spinner from './Spinner'
+import Spinner from './Spinner';
 
-import TopBar from './TopBar';
+// import TopBar from './TopBar';
 import OurDrawer from './OurDrawer';
-import Menu from './Menu';
+// import Menu from './Menu';
 import UserCard from './UserCard';
 
 import _navigate from './navigateConfig';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   description: {
     marginBottom: 10,
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: '#656565',
   },
   container: {
     padding: 10,
@@ -37,17 +37,17 @@ var styles = StyleSheet.create({
   innerNav: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   flowRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   buttonText: {
     fontSize: 14,
     color: 'white',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   button: {
     height: 36,
@@ -79,24 +79,24 @@ var styles = StyleSheet.create({
     height: 36,
     flex: 4,
     fontSize: 18,
-    color: 'black'
+    color: 'black',
   },
   image: {
     borderRadius: 100,
-    height:200,
-    width:200,
-    marginRight:10,
-    marginBottom: 20
+    height: 200,
+    width: 200,
+    marginRight: 10,
+    marginBottom: 20,
   },
   spinner: {
     padding: 30,
     marginTop: 200,
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default class Profile extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       loading: true,
@@ -104,37 +104,20 @@ export default class Profile extends Component {
       view: 'Friends',
       friendS: styles.selected,
       userS: styles.button,
-      requestS: styles.button
+      requestS: styles.button,
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.getFriends();
     this.getNewRequests();
   }
 
-  searchUsers(search = ''){
-    fetch(`http://localhost:3000/api/users/${search}`,{
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-    .then(response => response.json())
-    .then((users) => {
-      this.setState({
-        feed: users,
-        loading: false,
-      });
-    })
-    .catch((error) => {
-      console.log('Error searching for users', error.message);
-      throw error;
-    });
-  }
 
-  //need a better way to get the rest of refreshed version of friend requests
-  //every time we go back in we use the old version of the user when we logged in, not
-  //the new version in the database
-  //set new user each time a change is done?
+  // need a better way to get the rest of refreshed version of friend requests
+  // every time we go back in we use the old version of the user when we logged in, not
+  // the new version in the database
+  // set new user each time a change is done?
   getNewRequests(context){
      fetch('http://localhost:3000/api/friends/getRequests',{
        method: 'POST',
@@ -203,6 +186,24 @@ export default class Profile extends Component {
       friendS: styles.button,
       requestS: styles.button,
       userS:styles.selected
+    });
+  }
+
+  searchUsers(search = '') {
+    fetch(`http://localhost:3000/api/users/${search}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then((users) => {
+      this.setState({
+        feed: users,
+        loading: false,
+      });
+    })
+    .catch((error) => {
+      console.log('Error searching for users', error.message);
+      throw error;
     });
   }
 

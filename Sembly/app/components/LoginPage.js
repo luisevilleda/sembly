@@ -57,6 +57,7 @@ export default class LoginPage extends Component {
 
   serverLoginFromFacebookData(facebookUserData) {
     this.setState({ loading: true });
+    console.log('This is being sent to our server on login ', facebookUserData);
     return fetch('http://localhost:3000/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

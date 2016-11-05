@@ -31,7 +31,7 @@ export default class Menu extends Component {
   getUserInfoFromStorage() {
     getUser()
     .then((user) => {
-      console.log(user);
+      console.log('Manu.js user: ', user);
       this.setState({ user });
     });
   }

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
 import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
 import Promise from 'bluebird';
-import { destroyUser } from '../controllers/userStorageController';
+import { setUser, destroyUser } from '../controllers/userStorageController';
 
 class FacebookLoginButton extends Component {
   constructor(props) {
@@ -41,8 +40,8 @@ class FacebookLoginButton extends Component {
               name: fbInfoRes.name,
               email: fbInfoRes.email,
               facebookId: fbInfoRes.id,
-              gener: fbInfoRes.gender,
-              pictureUrl: pictureRes.url,
+              gender: fbInfoRes.gender,
+              photoUrl: pictureRes.url,
             });
           })
         )
@@ -57,14 +56,6 @@ class FacebookLoginButton extends Component {
       const fbInfoRequest = _this.getFbInfo(data);
       fbInfoRequest.then(userObj =>
         _this.props.onLogin(userObj)
-        // This was to save the userObj, but when our server
-        // Responds with a new user data obj, we save that instead, which includes this stuff
-        // _this.setUser(userObj)
-        // .then(() => {
-        //   console.log('Successfully saved user to AsyncStorage \'user\'');
-        //   _this.props.onLogin(userObj);
-        //   console.log('SEND userObj TO onLogin:', userObj);
-        // })
       )
       .catch((err) => {
         console.log('Error handling Facebook login data', err);
