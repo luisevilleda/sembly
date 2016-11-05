@@ -119,10 +119,10 @@ export default class Feed extends Component {
 
 const drawerStyles = {
   drawer: {
-  backgroundColor: 'red',
-  shadowColor: '#000000',
-  shadowOpacity: 0.8,
-  shadowRadius: 3,
+    backgroundColor: 'red',
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
   },
 };
 
