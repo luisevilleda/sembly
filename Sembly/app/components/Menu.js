@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { FBLogin } from 'react-native-facebook-login';
 import { getUser } from '../controllers/userStorageController';
 
 const styles = StyleSheet.create({
@@ -128,6 +129,7 @@ export default class Menu extends Component {
               <Text style={styles.listElem}>Saved</Text>
             </View>
           </TouchableOpacity>
+          <FBLogin />
         </View>
       </View>
 
