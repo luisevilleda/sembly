@@ -86,7 +86,7 @@
   <key>NSPhotoLibraryUsageDescription</key>
   <string>Share photos from events!</string>
   <!-- End FacebookSDK code -->
-  
+
   <!-- FacebookSDK dialogs -->
   <key>LSApplicationQueriesSchemes</key>
   <array>
@@ -96,7 +96,7 @@
     <string>fbshareextension</string>
   </array>
   <!-- End FacebookSDK dialogs -->
-  
+
   <!-- Magus Facebook login code -->
   <key>LSApplicationQueriesSchemes</key>
   <array>

@@ -51,3 +51,5 @@ bower_components
 
 # Yarn
 yarn.lock
+
+./server/config.js
