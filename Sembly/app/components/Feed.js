@@ -4,18 +4,13 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-
 import Spinner from './Spinner';
-
 import NewEventModal from './NewEventModal';
 import EventModal from './EventModal';
 import NewEventFab from './NewEventFab';
-
 import OurDrawer from './OurDrawer';
 import EventCard from './EventCard';
-
 import _navigate from './navigateConfig';
-
 
 export default class Feed extends Component {
   constructor(props) {
